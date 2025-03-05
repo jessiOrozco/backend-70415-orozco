@@ -1,0 +1,11 @@
+<h1> Bienvenido, {{usuario.first_name}} {{usuario.last_name}}</h1>
+
+<p> Estas logueado viendo tu perfi y tus datitos </p>
+
+<p>Edad <span>{{usuario.age}}</span></p>
+<p>Email <span>{{usuario.email}}</span></p>
+<p>Carrito <span>{{usuario.carrito}}</span></p>
+
+<form action="/api/sessions/logout" method="POST">
+    <button type="submit"> Logout </button>
+</form>
