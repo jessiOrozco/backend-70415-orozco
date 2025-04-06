@@ -6,7 +6,13 @@ const router = express.Router();
 const productManager = new ProductManager();
 const cartManager = new CartManager();
 
-router.get("/products", async (req, res) => {
+import passport from "passport";
+
+//middleware
+import {onlyAdmin, onlyUser} from "../middleware/auth.js";
+
+
+router.get("/products", passport.authenticate("current", {session: false}), onlyUser, async (req, res) => {
    try {
       const { page = 1, limit = 2 } = req.query;
       const productos = await productManager.getProducts({
@@ -70,6 +76,14 @@ router.get("/register", (req, res) => {
 
 router.get("/login", (req, res) => {
    res.render("login"); 
+})
+
+router.get("/realtimeproducts", passport.authenticate("current", {session: false}), onlyAdmin, (req, res) => {
+   res.render("realtimeproducts")
+})
+
+router.get("/", passport.authenticate("current", {session: false}), async (req, res) => {
+   res.render("home", {user: req.user});
 })
 
 export default router;
