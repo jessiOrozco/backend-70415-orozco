@@ -1,11 +1,10 @@
-import CartRepository from "../repositories/cart.repository.js";
-import TicketRepository from "../repositories/ticket.repository.js";
+import TicketService from "../services/ticket.service.js";
 
 class TicketController {
     async generateTicket(req, res) {
-        const { cid } = req.body;
+        const { cid, user } = req.body;
         try{
-            const ticket = TicketService.createTicket(req.body)
+            const ticket = TicketService.createTicket(cid, user);
             return res.status(200).json(ticket);
         }catch(err){
             res.status(500).send(err)

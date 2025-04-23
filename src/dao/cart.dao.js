@@ -6,36 +6,13 @@ class CartDao{
         return cartModel.findById(cid);
     }
 
-    async create(){
-        const cart = new CartModel();
+    async create(userId){
+        const cart = new CartModel({products: [], user: userId});
         return await cart.save();
     }
 
-    async addProductToCart(productId){
-        try {
-            const cart = await CartModel.findById(cartId);
-
-            if (!cart) {
-                throw new Error('Carrito no encontrado');
-            }
-
-            const productIndex = cart.products.findIndex(item => item.product._id.toString() === productId);
-
-            if (productIndex !== -1) {
-                cart.products[productIndex].quantity = newQuantity;
-
-
-                cart.markModified('products');
-
-                await cart.save();
-                return cart;
-            } else {
-                throw new Error('Producto no encontrado en el carrito');
-            }
-        } catch (error) {
-            console.error('Error al actualizar la cantidad del producto en el carrito', error);
-            throw error;
-        }
+    async addProductToCart(cart){
+        return await cart.save()
     }
 
     async updateCart(cart){
@@ -52,6 +29,20 @@ class CartDao{
             return cart
         }catch(err){
             throw err;
+        }
+    }
+
+    async deletedProduct(pid, cid){
+        try{
+            const cart = await CartModel.findById(cid)
+            if (!cart) {
+                throw new Error('Carrito no encontrado');
+            }
+            cart.products = cart.products.filter(item => item.product._id.toString() !== pid);
+            await cart.save()
+            return cart
+        }catch(err){
+            console.log("Hay un error al eliminar el producto",err)
         }
     }
 

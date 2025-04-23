@@ -5,7 +5,7 @@ const cartSchema = new mongoose.Schema({
     {
       product: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product',
+        ref: 'Productos',
         required: true
       },
       quantity: {
@@ -13,7 +13,12 @@ const cartSchema = new mongoose.Schema({
         required: true
       }
     }
-  ]
+  ],
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
 });
 
 // Middleware pre que realiza la población automáticamente

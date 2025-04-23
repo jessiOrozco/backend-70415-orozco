@@ -1,8 +1,63 @@
-<h1>Carrito de Compras</h1>
+<div class="container w-100">
+    <div class="row mt-5">
+        <h2 class="text-xl-center">Carrito</h2>
+    </div>
+    <div class="row">
+        {{#each productos}}
+            <div class="card col-sm-4">
 
-{{#each productos}}
-  <div>
-    <p>Producto: {{this.product.title}}</p>
-    <p>Cantidad: {{this.quantity}}</p>
-  </div>
-{{/each}}
+                <img src="{{this.product.image}}" alt="" class="card-img-top">
+
+                <div class="card-footer d-flex flex-column  justify-content-end">
+                    <div class="d-flex justify-content-between">
+                        <h5>{{this.product.title}}</h5>
+                        <p class="align-self-end">${{this.product.price}} MXN</p>
+                        <p class="align-self-end"><button class="btn btn-primary" type="button" onclick="addProduct('{{this.product._id}}',{{this.quantity}})">+</button>{{this.quantity}} <button type="button" class="btn btn-info" onclick="minusProduct('{{this.product._id}}', {{this.quantity}})">-</button> Unidades</p>
+                    </div>
+                </div>
+            </div>
+
+
+        {{/each}}
+    </div>
+
+</div>
+
+<script>
+    async function addProduct(pid,amount) {
+        const idCart = localStorage.getItem("cart");
+
+        await fetch(`http://localhost:8080/api/carts/${idCart}/product/${pid}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                quantity: amount+1,
+            })
+        }).then(async (response) => {
+            const responseCart = await response.json()
+
+            window.location.href = "/carts/" + idCart
+        })
+    }
+    async function minusProduct(pid, amount) {
+        const idCart = localStorage.getItem("cart");
+        let quantity = amount -1;
+        if (amount > 0) {
+            await fetch(`http://localhost:8080/api/carts/${idCart}/product/${pid}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    quantity: quantity
+                })
+            }).then(async (response) => {
+                const responseCart = await response.json()
+
+                window.location.href = "/carts/" + idCart
+            })
+        }
+    }
+</script>

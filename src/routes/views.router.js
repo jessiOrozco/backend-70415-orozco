@@ -21,7 +21,7 @@ router.get("/products", passport.authenticate("current", {session: false}), only
       });
 
       const nuevoArray = productos.docs.map(producto => {
-         const { _id, ...rest } = producto.toObject();
+         const { ...rest } = producto.toObject();
          return rest;
       });
 
@@ -32,7 +32,8 @@ router.get("/products", passport.authenticate("current", {session: false}), only
          prevPage: productos.prevPage,
          nextPage: productos.nextPage,
          currentPage: productos.page,
-         totalPages: productos.totalPages
+         totalPages: productos.totalPages,
+         user: req.user,
       });
 
    } catch (error) {
@@ -44,7 +45,7 @@ router.get("/products", passport.authenticate("current", {session: false}), only
    }
 });
 
-router.get("/carts/:cid", async (req, res) => {
+router.get("/carts/:cid", passport.authenticate("current", {session: false}), onlyUser, async (req, res) => {
    const cartId = req.params.cid;
 
    try {
@@ -83,7 +84,7 @@ router.get("/realtimeproducts", passport.authenticate("current", {session: false
 })
 
 router.get("/", passport.authenticate("current", {session: false}), async (req, res) => {
-   res.render("home", {user: req.user});
+   res.render("home", {user: req.user, layout:"main", userExist: true});
 })
 
 export default router;

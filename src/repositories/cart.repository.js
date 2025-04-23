@@ -4,15 +4,15 @@ import cartModel from "../dao/models/cart.model.js";
 class CartRepository {
 
     async create(cart){
-        cartDao.create(cart);
+        await cartDao.create(cart);
     }
 
     async findCart(cartId){
-
+        await cartDao.findById(cartId);
     }
 
-    async deletedProduct(){
-        const cart = await cartDao.deletedProduct();
+    async deletedProduct(pid, cid){
+        await cartDao.deletedProduct(pid, cid);
     }
 
     async updateCart(cart){
@@ -22,6 +22,12 @@ class CartRepository {
     async outedCart(cartId){
         return await cartDao.outedCart(cartId);
     }
+
+    async addProductToCart(cart){
+        return await cartDao.addProductToCart(cart);
+    }
+
+
 }
 
 export default new CartRepository();

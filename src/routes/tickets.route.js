@@ -6,4 +6,4 @@ import TicketController from "../controllers/tickets.controller.js";
 
 const ticketController = new TicketController();
 // creacion del ticket
-router.post("/", passport.authenticate("jwt", {session: false}), ticketController.generateTicket)
+router.post("/", passport.authenticate("current", {session: false}), ticketController.generateTicket)

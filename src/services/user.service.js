@@ -1,6 +1,7 @@
 import {createHash, isValidPassword} from "../utils/util.js";
 //importar repository
 import userRepository from "../repositories/user.repository.js";
+import CartRepository from "../repositories/cart.repository.js";
 
 
 class UserService {

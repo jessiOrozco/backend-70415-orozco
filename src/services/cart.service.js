@@ -2,10 +2,12 @@ import cartRepository from '../repositories/cart.repository.js';
 
 class CartService {
     async createCart(cartData){
-        const cartExists = await cartRepository.findOne(cart._id);
-        if(cartExists)throw new Error("Cart already exists");
-
-        return await cartRepository.create(cartData);
+        try{
+            return await cartRepository.create(cartData);
+        }catch(err){
+            console.log(err);
+            return null;
+        }
     }
 
     async findCart(cartId){
@@ -17,21 +19,26 @@ class CartService {
     async addProductToCart(cartId, productId, quantity){
         const cartExists = await cartRepository.findCart(cartId);
         if(!cartExists)throw new Error("Cart not exists");
-        const productIndex = cartExists.products.findIndex(item => item.product._id.toString() === productId);
+        const existeProducto = carrito.products.find(item => item.product.toString() === productId);
 
-        if(productIndex !== -1) {
-            cartExists.products[productIndex].quantity = quantity;
-            return await cartRepository.updateCart(cartExists);
+        if(existeProducto) {
+            existeProducto.quantity += quantity;
+        }else{
+            cartExists.products.push({product: productId, quantity});
         }
+        cartExists.markmodified("products")
 
-        cartRepository.addProductToCart(cartId, productId, quantity);
+        return await cartRepository.addProductToCart(cartExists);
 
     }
 
     async deletedProduct(cid, pid) {
-        const cart = await cartRepository.findCart(cid,pid);
+        const cart = await cartRepository.findCart(cid);
         if(!cart)throw new Error("Cart not found");
-        return await cartRepository.deletedProduct(cid,pid);
+
+        cart.products = cart.products.filter(item => item.product.toString() !== pid);
+
+        return await cartRepository.addProductToCart(cart);
     }
 
     async updatedProduct(cid, updatedProducts){

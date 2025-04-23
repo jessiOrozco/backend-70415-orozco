@@ -2,7 +2,7 @@ import CartRepository from "../repositories/cart.repository.js";
 import TicketRepository from "../repositories/ticket.repository.js";
 
 class TicketService {
-    async createTicket(cid){
+    async createTicket(cid, user){
         try {
             const cart = CartRepository.findCart(cid);
             if (!cart) throw ("Error no existe el carrito");
@@ -15,7 +15,7 @@ class TicketService {
             let ticket = {
                 cartId: cid,
                 total: sumaTotal,
-                purcharser:
+                purcharser: user.mail,
             }
 
             return await TicketRepository.createTicket(ticket)

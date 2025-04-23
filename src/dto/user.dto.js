@@ -1,7 +1,8 @@
 class UserDto {
     constructor(user) {
+        this.user = user.usuario;
         this.email = user.email;
-        this.role = user.role;
+        this.cart = user.cart
 
     }
 }

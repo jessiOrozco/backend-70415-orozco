@@ -8,7 +8,7 @@
       <p>Precio: ${{price}}</p>
       <p>Categoría: {{category}}</p>
        <img src={{image}} style="width: 40%;" alt="imagen del producto">
-      <button>Agregar al carrito</button>
+      <button onclick="addProduct('{{../user.cart}}', '{{_id}}')">Agregar al carrito</button>
    </div>
    {{/each}}
 </div>
@@ -22,3 +22,21 @@
       <a href="/products?page={{nextPage}}">Siguiente</a>
    {{/if}}
 </div>
+
+<script>
+    async function addProduct(cart, item) {
+        let idCart = cart;
+        await fetch(`http://localhost:8080/api/carts/${idCart}/product/${item}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(async (response) => {
+            const responseCart = await response.json()
+            if (!responseCart.id) {
+            }
+            window.location.href = "/carts/" + idCart
+        })
+
+    }
+</script>
