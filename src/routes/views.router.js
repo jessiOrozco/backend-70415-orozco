@@ -62,7 +62,7 @@ router.get("/carts/:cid", passport.authenticate("current", {session: false}), on
          quantity: item.quantity
       }));
 
-      res.render("carts", { productos: productosEnCarrito });
+      res.render("carts", { productos: productosEnCarrito, user: req.user, });
    } catch (error) {
       console.error("Error al obtener el carrito", error);
       res.status(500).json({ error: "Error interno del servidor" });

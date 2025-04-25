@@ -16,7 +16,7 @@ class CartDao{
     }
 
     async updateCart(cart){
-        return await CartModel.bulkSave(cart);
+        return await cart.save()
     }
 
     async outedCart(cartId){

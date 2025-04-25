@@ -5,7 +5,8 @@ import initializePassport from "./config/passport.config.js";
 import productsRouter from "./routes/products.router.js";
 import cartsRouter from "./routes/carts.router.js";
 import viewsRouter from "./routes/views.router.js";
-import sessionsRouter from "./routes/sessions.router.js"; 
+import sessionsRouter from "./routes/sessions.router.js";
+import ticketRouter from "./routes/tickets.route.js";
 import passport from "passport";
 import cookieParser from "cookie-parser";
 
@@ -29,7 +30,8 @@ app.set("views", "./src/views");
 // Rutas
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
-app.use("/api/sessions", sessionsRouter); 
+app.use("/api/sessions", sessionsRouter);
+app.use("/api/ticket", ticketRouter)
 app.use("/", viewsRouter);
 
 app.listen(PUERTO, () => {

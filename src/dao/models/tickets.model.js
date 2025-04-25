@@ -7,7 +7,7 @@ const ticketsSchema = new mongoose.Schema({
         type: String,
         default: uuidv4,
     },
-    cartId: {
+    cart: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "carts",
         required: true
@@ -27,7 +27,13 @@ const ticketsSchema = new mongoose.Schema({
 });
 
 ticketsSchema.pre("findOne", function (next) {
-    this.populate('cartId', 'products');
+    this.populate({
+        path: 'cart',
+        populate: {
+            path: 'products.product',
+            select: 'title price'
+        }
+        });
     next();
 })
 

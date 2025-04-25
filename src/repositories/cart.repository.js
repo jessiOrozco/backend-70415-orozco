@@ -8,7 +8,7 @@ class CartRepository {
     }
 
     async findCart(cartId){
-        await cartDao.findById(cartId);
+        return await cartDao.findById(cartId);
     }
 
     async deletedProduct(pid, cid){

@@ -2,7 +2,6 @@ import CartService from "../services/cart.service.js";
 
 class CartController {
     async create(req,res){
-
         const {userId, products} = req.body;
         try{
             const cart = await CartService.createCart(userId, products);
@@ -31,7 +30,6 @@ class CartController {
     }
 
     async addProductToCart(req,res){
-
         const cartId = req.params.cid
         const productid = req.params.pid
         const quantity = req.body.quantity || 1;
@@ -67,6 +65,7 @@ class CartController {
     }
 
     async updateProductQuantity(req,res){
+        debugger
         const {cid, pid} = req.params;
         const {quantity} = req.body;
         try {

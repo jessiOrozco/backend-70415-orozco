@@ -1,0 +1,33 @@
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th colspan="3" class="text-center"><h1>Abarrotes Hola Mundo </h1></th>
+    </tr>
+    <tr>
+        <th colspan="3" class="text-center">Codigo de compra: {{ticket.code}}</th>
+    </tr>
+    <tr>
+        <th>Articulo</th>
+        <th>Precio</th>
+        <th>Cantidad</th>
+    </tr>
+    </thead>
+    <tbody>
+        {{#each products}}
+            <tr>
+                <td>
+                    {{this.product.title}}
+                </td>
+                <td>
+                    $ {{this.product.price}}
+                </td>
+                <td>
+                    X {{this.quantity}}
+                </td>
+            </tr>
+        {{/each}}
+    <tr>
+        <td colspan="3" class="text-end"><b>Total: </b> {{ticket.amount}} </td>
+    </tr>
+    </tbody>
+</table>

@@ -19,14 +19,14 @@ class CartService {
     async addProductToCart(cartId, productId, quantity){
         const cartExists = await cartRepository.findCart(cartId);
         if(!cartExists)throw new Error("Cart not exists");
-        const existeProducto = carrito.products.find(item => item.product.toString() === productId);
+        const existeProducto = cartExists.products.find(item => item.product.toString() === productId);
 
         if(existeProducto) {
             existeProducto.quantity += quantity;
         }else{
             cartExists.products.push({product: productId, quantity});
         }
-        cartExists.markmodified("products")
+        cartExists.markModified("products")
 
         return await cartRepository.addProductToCart(cartExists);
 
